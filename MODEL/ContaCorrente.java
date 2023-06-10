@@ -14,6 +14,45 @@ public class ContaCorrente implements IConta {
 	private Integer numeroConta;
 	private BigDecimal saldo;
 	private  LocalDateTime dataAbertura;
+	private boolean status;
+	private List<RegistroTransacao> transacoes;
+	public final BigDecimal TAXA_TRANSACAO_CORRENTE_SAQUE = new BigDecimal("0.68");//adicionando uma taxa pra ganhar dinheiro hehe
+	public final BigDecimal TAXA_TRANSACAO_CORRENTE_TRANSFERENCIA = new BigDecimal("0.5");
+	
+	public ContaCorrente() {
+		this.dataAbertura = LocalDateTime.now();
+		this.numeroConta = new Random().nextInt(999999999);
+		saldo.setScale(4, RoundingMode.HALF_UP);//arredondamento para caso o saldo passe de 4 casas decimais
+		this.status = true;
+		transacoes = new ArrayList<>();
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(numeroConta);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContaCorrente other = (ContaCorrente) obj;
+		return Objects.equals(numeroConta, other.numeroConta);
+	}
+	
+	@Override
+	public String toString() {
+		return "ContaCorrente [numeroConta=" + numeroConta + ", saldo=" + saldo + ", dataAbertura=" + dataAbertura
+				+ ", status=" + status + ", transacoes=" + transacoes + "]";
+	}
+
+	
 	public Integer getNumeroConta() {
 		return numeroConta;
 	}
@@ -64,53 +103,57 @@ public class ContaCorrente implements IConta {
 	}
 
 
-	public float getTAXA_TRANSACAO_CORRENTE() {
-		return TAXA_TRANSACAO_CORRENTE;
+	public BigDecimal getTAXA_TRANSACAO_CORRENTE() {
+		return TAXA_TRANSACAO_CORRENTE_SAQUE;
 	}
 
 
-	private boolean status;
-	private List<RegistroTransacao> transacoes;
-	public final float TAXA_TRANSACAO_CORRENTE=0.05f;//adicionando uma taxa pra ganhar dinheiro hehe
-	
-	public ContaCorrente() {
-		this.dataAbertura = LocalDateTime.now();
-		this.numeroConta = new Random().nextInt(999999999);
-		saldo.setScale(4, RoundingMode.HALF_UP);//arredondamento para caso o saldo passe de 4 casas decimais
-		this.status = true;
-		transacoes = new ArrayList<>();
-	}
-	
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(numeroConta);
-	}
 
+	
+
+	//=======================================================================
+							//Métodos relativos à classe
+	//=======================================================================
+
+	
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContaCorrente other = (ContaCorrente) obj;
-		return Objects.equals(numeroConta, other.numeroConta);
-	}
-
-
-	@Override
-	public void depositar() {
-		// TODO Auto-generated method stub
+	public void depositar(BigDecimal quantia) {
+		if(status) {
+			if(quantia.compareTo(BigDecimal.ZERO)>0) {//verifica se a quantia é maior que zero
+				this.saldo = this.saldo.add(quantia);
+				transacoes.add(new RegistroTransacao(quantia, TipoTransacao.DEPOSITO,TipoConta.CONTA_CORRENTE,LocalDateTime.now()));
+				System.out.println("Depósito realizado com sucesso!");
+			}else {
+				System.err.println("Valor inválido para deposito.");
+			}
+		}else {
+			System.err.println("Operação não permitida. Conta desativada.");
+		}
 		
 	}
 
 
 	@Override
-	public void transferir(IConta contaOrigem, IConta contaDestino, float quantia) {
-		// TODO Auto-generated method stub
+	public void transferir(IConta contaDestino, BigDecimal quantia) {
+		if(status && isStatus()) {
+			if(quantia.compareTo(BigDecimal.ZERO)<0) {
+				System.out.println("Valor inválido para transferência.");
+			}else if(quantia.compareTo(saldo)<=0) {//se o valor a ser enviado for menor que o saldo do dito cujo
+				setSaldo(saldo.subtract(quantia));
+				contaDestino.depositar(quantia);
+				RegistroTransacao transacao = new RegistroTransacao(quantia, TipoTransacao.TRANSFERENCIA_CREDITO,TipoConta.CONTA_CORRENTE,LocalDateTime.now());
+				contaDestino.getTransacoes().add(transacao);//a conta deve possuir esse método(getTransacoes)
+				//Se for uma conta Corrente(especificando o parametro da conta de destino):
+				//((ContaCorrente) contaDestino).getTransacoes().add(transacao);//a conta deve possuir esse método(getTransacoes)
+				transacoes.add(new RegistroTransacao(quantia,TipoTransacao.TRASNFERENCIA_DEBITO,TipoConta.CONTA_CORRENTE,LocalDateTime.now()));
+			}else {
+				System.err.println("Saldo insuficiente para realizar a transferência.");
+			}
+		}else {
+			System.out.println("Operacao nao pode ser realizada entre contas desativadas.");
+		}
+	
 		
 	}
 
@@ -124,24 +167,37 @@ public class ContaCorrente implements IConta {
 
 	@Override
 	public void desativarConta() {
-		// TODO Auto-generated method stub
+		status = false;
 		
 	}
 
 
 	@Override
 	public void ativarConta() {
-		// TODO Auto-generated method stub
+		status = true;
 		
 	}
 
 
 	@Override
 	public void sacar(BigDecimal quantia) {
-		// TODO Auto-generated method stub
+		if(status) {
+			if(quantia.compareTo(BigDecimal.ZERO) > 0) {
+				if(this.saldo.compareTo(quantia)>0) {
+					this.saldo=this.saldo.subtract(quantia.add(TAXA_TRANSACAO_CORRENTE_SAQUE));//aqui eu adiciono a taxa de transação no momento em que é feito o saque
+					transacoes.add(new RegistroTransacao(quantia,TipoTransacao.SAQUE,TipoConta.CONTA_POUPANCA,LocalDateTime.now()));
+					System.out.println("Operação realizada com sucesso");
+				}else {
+					System.err.println("Saldo insuficiente");//foi triste :(
+				}
+			}else {
+				System.err.println("Valor inválido para saque");
+			}
+		}else {
+			System.err.println("Operação não permitida. Conta desativada.");
+		}
 		
 	}
-
 
 	
 //Aluno: Davi Souza de Luna
