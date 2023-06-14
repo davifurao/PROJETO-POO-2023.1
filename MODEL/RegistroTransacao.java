@@ -12,12 +12,12 @@ public class RegistroTransacao {
 	private TipoTransacao tipo;
 	private LocalDateTime data;
 	private TipoConta tipo_conta;
-	
-	public RegistroTransacao(BigDecimal valor, TipoTransacao tipo,TipoConta tipo_conta, LocalDateTime data) {
+
+	public RegistroTransacao(BigDecimal valor, TipoTransacao tipo, TipoConta tipo_conta, LocalDateTime data) {
 		this.id = new Random().nextInt(999999999);
-		this.valor=valor;
-		this.tipo=tipo;
-		this.data=data;
+		this.valor = valor;
+		this.tipo = tipo;
+		this.data = data;
 		this.tipo_conta = tipo_conta;
 	}
 
@@ -78,7 +78,6 @@ public class RegistroTransacao {
 		return Objects.equals(id, other.id);
 	}
 
-	
 }
 
 //Aluno: Davi Souza de Luna
