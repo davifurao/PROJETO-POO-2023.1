@@ -27,6 +27,14 @@ public class ContaCorrente implements IConta {
 		this.status = true;
 		transacoes = new ArrayList<>();
 	}
+	//sobrecarga de construtor(ele é usado para o método de findall nas classes das contas)
+	public ContaCorrente(Integer numeroConta, BigDecimal saldo, LocalDateTime dataAbertura, boolean status) {
+        this.numeroConta = numeroConta;
+        this.saldo = saldo;
+        this.dataAbertura = dataAbertura;
+        this.status = status;
+        this.transacoes = new ArrayList<>();
+    }
 
 	@Override
 	public int hashCode() {

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 import db.IConnection;
 import model.ContaCorrente;
@@ -29,6 +30,7 @@ public class ContaCorrenteDAO implements IEntityDAO<ContaCorrente> {
 	@Override
 	public void save(ContaCorrente t) {
 		String sql = "INSERT INTO conta_corrente (numeroConta, saldo, dataAbertura, status) VALUES(?,?,?,?)";
+		//transformar o Localdatetime em timestamp
 		java.sql.Timestamp dataSQL = java.sql.Timestamp.valueOf(t.getDataAbertura());//transformando a data atual para datetime(pois estava dando erro)
 		
 		//transformar o status boolean em string
@@ -101,13 +103,58 @@ public class ContaCorrenteDAO implements IEntityDAO<ContaCorrente> {
 
 	@Override
 	public List<ContaCorrente> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	    List<ContaCorrente> listaContaCorrente = new ArrayList<>();
+	    
+	    String sql = "SELECT * FROM conta_corrente;";
+	    
+	    PreparedStatement pstm;
+	    ResultSet rs;
+	    ContaCorrente c;
+	    
+	    try {
+	        pstm = conn.getConnection().prepareStatement(sql);
+	        rs = pstm.executeQuery();
+	        
+	        while (rs.next()) {
+	        	
+	        	
+	            c = new ContaCorrente(rs.getInt("numeroConta"), rs.getBigDecimal("saldo"),
+	                    rs.getTimestamp("dataAbertura").toLocalDateTime(), rs.getBoolean("status"));
+	            listaContaCorrente.add(c);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return listaContaCorrente;
 	}
+
 
 	@Override
 	public void update(ContaCorrente t) {
-		// TODO Auto-generated method stub
+		ContaCorrente temp = findById(t.getNumeroConta());
+		temp.setNumeroConta(t.getNumeroConta());
+		temp.setDataAbertura(t.getDataAbertura());
+		temp.setSaldo(t.getSaldo());
+		temp.setStatus(t.isStatus());
+		temp.setTransacoes(t.getTransacoes());
+		
+		String sql = "UPDATE conta_corrente SET saldo = ?,dataAbertura = ?,status = ? WHERE numeroConta = ?;";
+		//transformar o LocalDateTime em timestamp
+		java.sql.Timestamp data = java.sql.Timestamp.valueOf(t.getDataAbertura());
+		
+		//transformar o status boolean em string
+		String status_string = String.valueOf(t.isStatus());
+		
+		try {
+			PreparedStatement pstm = conn.getConnection().prepareStatement(sql);
+			pstm.setInt(1, temp.getNumeroConta());
+			pstm.setTimestamp(2, data);
+			pstm.setString(3, status_string);
+			pstm.setInt(4, t.getNumeroConta());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

@@ -19,7 +19,7 @@ public class Aplicacao {
 		ContaCorrente d = new ContaCorrente();
 		IEntityDAO<ContaCorrente> daoCC = new ContaCorrenteDAO(new ConexaoBancoMySQL());
 		IEntityDAO<RegistroTransacao> daoRG = new RegistroTransacaoDAO(new ConexaoBancoMySQL());
-		d.setNumeroConta(1885);
+		d.setNumeroConta(2000);
 		d.depositar(new BigDecimal("200"));
 		daoCC.save(d);
 		//daoCC.delete(d);
