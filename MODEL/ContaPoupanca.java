@@ -162,7 +162,7 @@ public class ContaPoupanca implements IConta {
 		for(RegistroTransacao rt : transacoes) {
 			if(rt.getData().getMonth().getValue() == mes && rt.getData().getYear() == ano) {
 				saldoExtrato=saldoExtrato.add(rt.getValor());
-				System.out.println(rt);
+				System.out.println(rt.getValor());
 			}
 		}
 		System.out.println("Impressão do saldo referente ao extrato: "+saldoExtrato);
