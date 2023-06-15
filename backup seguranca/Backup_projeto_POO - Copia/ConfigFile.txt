@@ -1,0 +1,5 @@
+DB_ADDRESS = localhost
+DB_PORT = 3306
+DB_SCHEMA = banco
+DB_USER = root
+DB_PASSWORD = root
