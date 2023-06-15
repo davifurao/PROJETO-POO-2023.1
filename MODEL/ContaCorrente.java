@@ -184,7 +184,7 @@ public class ContaCorrente implements IConta {
 		BigDecimal saldoExtrato= new BigDecimal("0");
 		for(RegistroTransacao rt : transacoes) {
 			if(rt.getData().getMonth().getValue() == mes && rt.getData().getYear() == ano) {
-				saldoExtrato.add(rt.getValor());
+				saldoExtrato=saldoExtrato.add(rt.getValor());
 				System.out.println(rt);
 			}
 		}

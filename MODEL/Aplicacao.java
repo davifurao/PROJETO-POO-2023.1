@@ -8,7 +8,7 @@ public class Aplicacao {
 		ContaCorrente conta = new ContaCorrente();
 		conta.depositar(new BigDecimal(100));
 		
-		System.out.println(conta.toString());
+		conta.imprimirExtratoConta(6, 23);
 
 	}
 
