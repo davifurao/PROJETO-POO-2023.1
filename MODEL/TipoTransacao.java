@@ -1,4 +1,4 @@
-package MODEL;
+package model;
 
 public enum TipoTransacao {
 	DEPOSITO(1), SAQUE(2), TRANSFERENCIA_CREDITO(3), TRASNFERENCIA_DEBITO(4);

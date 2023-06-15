@@ -1,4 +1,4 @@
-package MODEL;
+package model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -157,11 +157,17 @@ public class ContaPoupanca implements IConta {
 	}
 
 	@Override
-	public void imprimirExtratoConta() {
-		System.out.println("Você deseja o extrato do mês ou do ano ?");
-
+	public void imprimirExtratoConta(int mes, int ano) {
+		BigDecimal saldoExtrato= new BigDecimal("0");
+		for(RegistroTransacao rt : transacoes) {
+			if(rt.getData().getMonth().getValue() == mes && rt.getData().getYear() == ano) {
+				saldoExtrato.add(rt.getValor());
+				System.out.println(rt);
+			}
+		}
+		System.out.println("Impressão do saldo referente ao extrato: "+saldoExtrato);
 	}
-
+		
 	@Override
 	public void desativarConta() {
 		status = false;

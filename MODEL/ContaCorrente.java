@@ -1,4 +1,4 @@
-package MODEL;
+package model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -141,11 +141,7 @@ public class ContaCorrente implements IConta {
 
 	}
 
-	@Override
-	public void imprimirExtratoConta() {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void desativarConta() {
@@ -182,6 +178,21 @@ public class ContaCorrente implements IConta {
 		}
 
 	}
+
+	@Override
+	public void imprimirExtratoConta(int mes, int ano) {
+		BigDecimal saldoExtrato= new BigDecimal("0");
+		for(RegistroTransacao rt : transacoes) {
+			if(rt.getData().getMonth().getValue() == mes && rt.getData().getYear() == ano) {
+				saldoExtrato.add(rt.getValor());
+				System.out.println(rt);
+			}
+		}
+		System.out.println("Impressão do saldo referente ao extrato: "+saldoExtrato);
+	}
+		
+	
+
 
 //Aluno: Davi Souza de Luna
 //Curso: TSI
