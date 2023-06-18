@@ -9,7 +9,7 @@ public interface IConta { // criação de uma interface para futura manipulaçã
 	public void setConta(TipoConta conta);
 	public abstract int getNumeroConta();
 
-	public abstract void depositar(int quantia);
+	public abstract void depositar(float quantia);
 
 	public abstract void transferir(IConta contaDestino, int quantia);
 
@@ -17,7 +17,7 @@ public interface IConta { // criação de uma interface para futura manipulaçã
 
 	public abstract void ativarConta();
 
-	public abstract void sacar(int quantia);
+	public abstract void sacar(float quantia);
 
 	public abstract List<RegistroTransacao> getTransacoes();
 

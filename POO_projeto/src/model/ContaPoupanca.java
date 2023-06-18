@@ -29,7 +29,7 @@ public class ContaPoupanca implements IConta {
 		this.conta = TipoConta.CONTA_POUPANCA;
 	}
 	@Override
-	public void depositar(int quantia) {
+	public void depositar(float quantia) {
 		if (status) {
 			if(quantia >0) {
 				this.saldo+=quantia;
@@ -83,7 +83,7 @@ public class ContaPoupanca implements IConta {
 	}
 
 	@Override
-	public void sacar(int quantia) {
+	public void sacar(float quantia) {
 		if(quantia+TAXA_TRANSACAO_CORRENTE_POUPANCA>this.saldo) {
 		this.saldo -=quantia;
 		float valor = (float)quantia;
