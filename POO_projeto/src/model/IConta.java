@@ -1,19 +1,23 @@
 package model;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 public interface IConta { // criação de uma interface para futura manipulação
+	
+	public TipoConta getConta();
+	public void setConta(TipoConta conta);
+	public abstract int getNumeroConta();
 
-	public abstract void depositar(BigDecimal quantia);
+	public abstract void depositar(int quantia);
 
-	public abstract void transferir(IConta contaDestino, BigDecimal quantia);
+	public abstract void transferir(IConta contaDestino, int quantia);
 
 	public abstract void desativarConta();
 
 	public abstract void ativarConta();
 
-	public abstract void sacar(BigDecimal quantia);
+	public abstract void sacar(int quantia);
 
 	public abstract List<RegistroTransacao> getTransacoes();
 
