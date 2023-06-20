@@ -10,7 +10,7 @@ import java.util.Random;
 public class ContaCorrente implements IConta {
 
 	private int id;
-	private int numeroConta;
+	private String numeroConta;
 	private float saldo;
 	private LocalDateTime data;
 	private boolean status;
@@ -20,7 +20,7 @@ public class ContaCorrente implements IConta {
 	
 	public final float TAXA_TRANSACAO_CORRENTE_SAQUE = 0.06f;
 	
-	public  ContaCorrente(int numeroConta) {
+	public  ContaCorrente(String numeroConta) {
 		this.id = random.nextInt(999999999);
 		this.numeroConta = numeroConta;
 		this.status = true;
@@ -30,7 +30,7 @@ public class ContaCorrente implements IConta {
 		this.conta = TipoConta.CONTA_CORRENTE;
 	}
 	
-	public  ContaCorrente(int numeroConta, float saldo,boolean status) {
+	public  ContaCorrente(String numeroConta, float saldo,boolean status) {
 		this.id = random.nextInt(999999999);
 		this.numeroConta = numeroConta;
 		this.status = true;
@@ -39,6 +39,15 @@ public class ContaCorrente implements IConta {
 		transacoes = new ArrayList<>();
 		this.conta = TipoConta.CONTA_CORRENTE;
 	}
+	public ContaCorrente(int id2, String numeroConta2, float saldo2, boolean status2) {
+		this.id = id2;
+		this.numeroConta = numeroConta2;
+		this.saldo = saldo2;
+		this.status = status2;
+		transacoes = new ArrayList<>();
+		this.conta = TipoConta.CONTA_CORRENTE;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -132,10 +141,10 @@ public class ContaCorrente implements IConta {
 		}System.out.println("Impressão do saldo referente ao extrato: "+saldoExtrato);
 		
 	}
-	public int getNumeroConta() {
+	public String getNumeroConta() {
 		return numeroConta;
 	}
-	public void setNumeroConta(int numeroConta) {
+	public void setNumeroConta(String numeroConta) {
 		this.numeroConta = numeroConta;
 	}
 	public float getSaldo() {

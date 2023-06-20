@@ -9,7 +9,7 @@ import java.util.Random;
 public class ContaPoupanca implements IConta {
 
 	private int id;
-	private int numeroConta;
+	private String numeroConta;
 	private float saldo;
 	private LocalDateTime data;
 	private boolean status;
@@ -19,12 +19,20 @@ public class ContaPoupanca implements IConta {
 	
 	public final float TAXA_TRANSACAO_CORRENTE_POUPANCA = 0.02f;
 	
-	public  ContaPoupanca(int numeroConta) {
+	public  ContaPoupanca(String numeroConta) {
 		this.id = random.nextInt(999999999);
 		this.numeroConta = numeroConta;
 		this.status = true;
 		this.data= LocalDateTime.now();
 		this.saldo = 0.0f;
+		transacoes = new ArrayList<>();
+		this.conta = TipoConta.CONTA_POUPANCA;
+	}
+	public ContaPoupanca(int id2, String numeroConta2, float saldo2, boolean status2) {
+		this.id = id2;
+		this.numeroConta = numeroConta2;
+		this.saldo = saldo2;
+		this.status = status2;
 		transacoes = new ArrayList<>();
 		this.conta = TipoConta.CONTA_POUPANCA;
 	}
@@ -112,10 +120,10 @@ public class ContaPoupanca implements IConta {
 		}System.out.println("Impressão do saldo referente ao extrato: "+saldoExtrato);
 		
 	}
-	public int getNumeroConta() {
+	public String getNumeroConta() {
 		return numeroConta;
 	}
-	public void setNumeroConta(int numeroConta) {
+	public void setNumeroConta(String numeroConta) {
 		this.numeroConta = numeroConta;
 	}
 	public float getSaldo() {

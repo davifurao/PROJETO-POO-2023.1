@@ -7,7 +7,7 @@ public interface IConta { // criação de uma interface para futura manipulaçã
 	
 	public TipoConta getConta();
 	public void setConta(TipoConta conta);
-	public abstract int getNumeroConta();
+	public abstract String getNumeroConta();
 
 	public abstract void depositar(float quantia);
 
