@@ -4,16 +4,27 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import model.IConta;
 
 public class Cliente implements ICliente {
 	
+	private int id;
 	private String cpf;
 	List<RegistroConta> contas;
 	private LocalDateTime data;
 	
 	public Cliente(String cpf) {
+		Random random = new Random();
+		this.setId(random .nextInt(999999999));
+		this.cpf = cpf;
+		this.contas =new ArrayList<>();
+		this.data = LocalDateTime.now();
+	}
+	
+	public Cliente(int id,String cpf) {
+		this.setId(id);
 		this.cpf = cpf;
 		this.contas =new ArrayList<>();
 		this.data = LocalDateTime.now();
@@ -95,6 +106,14 @@ public class Cliente implements ICliente {
 			return false;
 		Cliente other = (Cliente) obj;
 		return Objects.equals(cpf, other.cpf);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	
