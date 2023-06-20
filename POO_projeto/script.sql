@@ -41,6 +41,8 @@ primary key(id)
 CREATE TABLE registro_transacao(
 id int not null,
 valor float,
+tipo_conta varchar(20),
+tipo_transacao varchar(20),
 data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 primary key(id)
 );

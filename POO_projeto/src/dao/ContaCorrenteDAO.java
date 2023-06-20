@@ -32,6 +32,10 @@ public class ContaCorrenteDAO implements IEntityDAO<ContaCorrente> {
                 e.printStackTrace();
             }
     }
+	
+	public void selectElement(ContaCorrente t,String tabela) {
+		
+	}
 
 	@Override
     public List<ContaCorrente> findAll(){

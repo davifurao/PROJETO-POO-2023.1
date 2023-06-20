@@ -21,6 +21,14 @@ public class RegistroTransacao  {
 		this.tipo_conta = tipo_conta;
 	}
 	
+	//sobrecarga do construtor sem a data
+	public RegistroTransacao(float valor2,TipoTransacao tipo_transacao2, TipoConta tipo_conta2) {
+		this.id = new Random().nextInt(999999999);
+		this.valor = valor2;
+		this.tipo = tipo_transacao2;
+		this.tipo_conta = tipo_conta2;
+	}
+	
 	
 
 
