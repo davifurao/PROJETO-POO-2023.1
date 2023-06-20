@@ -11,7 +11,7 @@ public interface IConta { // criação de uma interface para futura manipulaçã
 
 	public abstract void depositar(float quantia);
 
-	public abstract void transferir(IConta contaDestino, int quantia);
+	public abstract void transferir(IConta contaDestino, float quantia);
 
 	public abstract void desativarConta();
 

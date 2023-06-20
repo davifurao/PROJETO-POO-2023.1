@@ -41,6 +41,14 @@ public class RegistroTransacao  {
 		this.valor=valor2;
 	}
 
+	public RegistroTransacao(float valor2, String tipoConta, String tipoTransacao, LocalDateTime data2) {
+		this.data=data2;
+		this.id= new Random().nextInt(999999999);
+		this.tipo= TipoTransacao.fromString(tipoTransacao);
+		this.tipo_conta = TipoConta.fromString(tipoConta);
+		this.data=data2;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

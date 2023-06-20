@@ -74,7 +74,7 @@ public class ContaCorrente implements IConta {
 	}
 
 	@Override
-	public void transferir(IConta contaDestino, int quantia) {
+	public void transferir(IConta contaDestino, float quantia) {
 		if (status && isStatus()) {
 			if(quantia+TAXA_TRANSACAO_CORRENTE_SAQUE < this.saldo) {
 				this.saldo-=quantia+TAXA_TRANSACAO_CORRENTE_SAQUE;
@@ -113,7 +113,7 @@ public class ContaCorrente implements IConta {
 
 	@Override
 	public void sacar(float quantia) {
-		if(quantia+TAXA_TRANSACAO_CORRENTE_SAQUE>this.saldo) {
+		if(quantia+TAXA_TRANSACAO_CORRENTE_SAQUE<this.saldo) {
 		this.saldo -=quantia;
 		float valor = (float)quantia;
 		transacoes.add(new RegistroTransacao(valor,TipoTransacao.TRANSFERENCIA_CREDITO,this.conta,LocalDateTime.now()));

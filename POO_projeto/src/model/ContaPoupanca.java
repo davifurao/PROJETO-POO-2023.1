@@ -54,7 +54,7 @@ public class ContaPoupanca implements IConta {
 	}
 
 	@Override
-	public void transferir(IConta contaDestino, int quantia) {
+	public void transferir(IConta contaDestino, float quantia) {
 		if (status && isStatus()) {
 			if(quantia+TAXA_TRANSACAO_CORRENTE_POUPANCA > this.saldo) {
 				this.saldo-=quantia+TAXA_TRANSACAO_CORRENTE_POUPANCA;
@@ -92,7 +92,7 @@ public class ContaPoupanca implements IConta {
 
 	@Override
 	public void sacar(float quantia) {
-		if(quantia+TAXA_TRANSACAO_CORRENTE_POUPANCA>this.saldo) {
+		if(quantia+TAXA_TRANSACAO_CORRENTE_POUPANCA<this.saldo) {
 		this.saldo -=quantia;
 		float valor = (float)quantia;
 		transacoes.add(new RegistroTransacao(valor,TipoTransacao.TRASNFERENCIA_DEBITO,this.conta,LocalDateTime.now()));

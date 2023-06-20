@@ -21,6 +21,17 @@ public enum TipoConta {
 		}
 		return null;
 	}
+	
+	//transformar string no tipo do enumerator. Eu usei para poder criar os objetos a partir do BD
+	public static TipoConta fromString(String tipoConta) {
+	    for (TipoConta t : values()) {
+	        if (t.name().equalsIgnoreCase(tipoConta)) {
+	            return t;
+	        }
+	    }
+	    return null;
+	}
+
 }
 //Aluno: Davi Souza de Luna
 //Curso: TSI
