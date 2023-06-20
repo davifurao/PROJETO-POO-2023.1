@@ -32,6 +32,15 @@ public class RegistroTransacao  {
 	
 
 
+	public RegistroTransacao(int id2, float valor2, TipoConta tipoConta, TipoTransacao tipoTransacao,
+			LocalDateTime data2) {
+		this.id=id2;
+		this.data=data2;
+		this.tipo=tipoTransacao;
+		this.tipo_conta=tipoConta;
+		this.valor=valor2;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
