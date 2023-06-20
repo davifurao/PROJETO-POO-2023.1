@@ -114,7 +114,7 @@ public class ContaCorrente implements IConta {
 	@Override
 	public void sacar(float quantia) {
 		if(quantia+TAXA_TRANSACAO_CORRENTE_SAQUE<this.saldo) {
-		this.saldo -=quantia;
+		this.saldo -=quantia+TAXA_TRANSACAO_CORRENTE_SAQUE;
 		float valor = (float)quantia;
 		transacoes.add(new RegistroTransacao(valor,TipoTransacao.TRANSFERENCIA_CREDITO,this.conta,LocalDateTime.now()));
 		System.out.println("Saque realizado");

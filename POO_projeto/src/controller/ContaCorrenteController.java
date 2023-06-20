@@ -9,6 +9,7 @@ import model.ContaPoupanca;
 import model.IConta;
 
 //Os atributos do BD já devem existir, ele vai somente maniipular(update)
+//Portanto eles devem estar salvos
 
 public class ContaCorrenteController implements IContaController {
 
@@ -45,19 +46,15 @@ public class ContaCorrenteController implements IContaController {
 
 	@Override
 	public void transferir(IConta contaDestino, float valor) {
-		
 		ContaCorrente c = contaCorrenteDAO.findByNumeroConta(contaCorrente.getNumeroConta());
 		
-	    float saldoInicial = contaCorrente.getSaldo();
-	    float saldoFinal = contaCorrente.getSaldo();
-	    float saldoEsperado = saldoInicial - valor;
 	    
 	    //verificar qual tipo é a conta de destino para fazer o update na tabela correta
 	    //conta Corrente
 	    if (contaDestino instanceof ContaCorrente) {
 	        ContaCorrente contaCorrenteDestino = (ContaCorrente) contaDestino;
 	        ContaCorrente conta_corrente_banco_destino = contaCorrenteDAO.findByNumeroConta(contaCorrenteDestino.getNumeroConta());
-	        contaCorrente.transferir(conta_corrente_banco_destino, valor);
+	        c.transferir(conta_corrente_banco_destino, valor);
 		    
 	        contaCorrenteDAO.update(c);
 		    contaCorrenteDAO.update(conta_corrente_banco_destino);
@@ -67,7 +64,7 @@ public class ContaCorrenteController implements IContaController {
 	    } else if (contaDestino instanceof ContaPoupanca) {
 	        ContaPoupanca contaPoupancaDestino = (ContaPoupanca) contaDestino;
 	        ContaPoupanca conta_poupanca_banco_destino = contaPoupancaDAO.findByNumeroConta(contaPoupancaDestino.getNumeroConta());
-	        contaCorrente.transferir(conta_poupanca_banco_destino, valor);
+	        c.transferir(conta_poupanca_banco_destino, valor);
 		    
 		     contaCorrenteDAO.update(c);
 		     contaPoupancaDAO.update(conta_poupanca_banco_destino);
