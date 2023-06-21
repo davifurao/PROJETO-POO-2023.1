@@ -1,9 +1,9 @@
 package dao;
 
 import db.ConexaoBancoMySQL;
-import dao.ContaPoupancaDAO;
-import dao.IEntityDAO;
-import dao.RegistroTransacaoDAO;
+//import dao.ContaPoupancaDAO;
+//import dao.IEntityDAO;
+//import dao.RegistroTransacaoDAO;
 import model.ContaPoupanca;
 import model.RegistroTransacao;
 import model.TipoConta;
