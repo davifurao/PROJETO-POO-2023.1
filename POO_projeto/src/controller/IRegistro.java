@@ -1,7 +1,6 @@
 package controller;
 
 import model.IConta;
-import model.TipoConta;
 import model.TipoTransacao;
 
 public interface IRegistro {

@@ -22,6 +22,13 @@ public interface IConta { // criação de uma interface para futura manipulaçã
 	public abstract List<RegistroTransacao> getTransacoes();
 
 	public void imprimirExtratoConta(int mes, int ano);
+	
+	public int getId();
+	
+	public float getSaldo();
+	
+	public boolean isStatus();
+	public void setId(int id);
 
 	// Aluno: Davi Souza de Luna
 	// Curso: TSI

@@ -36,6 +36,15 @@ public class ContaPoupanca implements IConta {
 		transacoes = new ArrayList<>();
 		this.conta = TipoConta.CONTA_POUPANCA;
 	}
+	public ContaPoupanca(String numeroConta, float saldo,boolean status) {
+		this.id = random.nextInt(999999999);
+		this.numeroConta = numeroConta;
+		this.status = true;
+		this.data= LocalDateTime.now();
+		this.saldo = saldo;
+		transacoes = new ArrayList<>();
+		this.conta = TipoConta.CONTA_POUPANCA;
+	}
 	@Override
 	public void depositar(float quantia) {
 		if (status) {

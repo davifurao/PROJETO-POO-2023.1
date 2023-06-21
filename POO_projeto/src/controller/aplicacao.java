@@ -1,44 +1,60 @@
 package controller;
 
-import dao.ContaCorrenteDAO;
-import dao.ContaPoupancaDAO;
-import db.ConexaoBancoMySQL;
-import db.IConnection;
+import java.time.LocalDateTime;
+import java.util.List;
+import client_model.RegistroConta;
+import controller.RegistroContaController;
 import model.ContaCorrente;
 import model.ContaPoupanca;
+import model.IConta;
+import model.TipoConta;
 
 public class aplicacao {
-
     public static void main(String[] args) {
-        // Criação da conexão com o banco de dados
-        IConnection connection = new ConexaoBancoMySQL();
+        // Criação do controller
+        RegistroContaController controller = new RegistroContaController();
 
-        // Criação dos objetos DAO
-        ContaCorrenteDAO contaCorrenteDAO = new ContaCorrenteDAO(connection);
-        ContaPoupancaDAO contaPoupancaDAO = new ContaPoupancaDAO(connection);
+        // Criação de registros de conta
+        ContaCorrente conta1 = new ContaCorrente("123", 1000.0f,true);
+        IConta conta2 = new ContaPoupanca("456", 2000.0f,true);
+        RegistroConta registro1 = new RegistroConta("12345678901", TipoConta.CONTA_CORRENTE, conta1);
+        RegistroConta registro2 = new RegistroConta("98765432109", TipoConta.CONTA_POUPANCA, conta2);
 
-        // Criação de uma conta corrente para testar
-        ContaCorrente contaCorrente = new ContaCorrente(1, "12345", 1000.0f, true);
-        ContaPoupanca contaPoupanca = new ContaPoupanca("5050");
+        // Adicionar registros de conta
+        controller.adicionarRegistro(registro1);
+        controller.adicionarRegistro(registro2);
 
-        // Criação do controller da conta corrente
-        ContaCorrenteController contaCorrenteController = new ContaCorrenteController(contaCorrente);
+        // Listar registros de conta
+        List<RegistroConta> registros = controller.listarRegistros();
+        System.out.println("Registros de Conta:");
+        for (RegistroConta registro : registros) {
+            System.out.println(registro);
+        }
 
-        // Criação do controller da conta poupança
-        ContaPoupancaController contaPoupancaController = new ContaPoupancaController(contaPoupanca);
+        // Atualizar um registro de conta
+        conta1.setSaldo(150f);
+        RegistroConta registroAtualizado = new RegistroConta("12345678901", TipoConta.CONTA_CORRENTE, conta1);
+        controller.atualizarRegistro(registroAtualizado);
 
-        
-        contaCorrenteDAO.save(contaCorrente);
-        contaPoupancaDAO.save(contaPoupanca);
-        
-        
-        // Teste dos métodos
-        contaCorrenteController.depositar(500.0f);
-        contaCorrenteController.sacar(200.0f);
-        contaPoupancaController.depositar(2000);
+        // Excluir um registro de conta
+        controller.excluirRegistro(registro2);
 
-        // Encerramento da conexão com o banco de dados
-        //connection.closeConnection();
+        // Buscar registro de conta por número da conta
+        String numeroConta = "123";
+        RegistroConta registroEncontrado = controller.buscarRegistroPorNumeroConta(numeroConta);
+        if (registroEncontrado != null) {
+            System.out.println("Registro de Conta encontrado (número da conta: " + numeroConta + "):");
+            System.out.println(registroEncontrado);
+        } else {
+            System.out.println("Nenhum registro de conta encontrado para o número da conta: " + numeroConta);
+        }
+
+        // Buscar registros de conta por CPF
+        String cpf = "12345678901";
+        List<RegistroConta> registrosCPF = controller.buscarRegistrosPorCPF(cpf);
+        System.out.println("Registros de Conta associados ao CPF " + cpf + ":");
+        for (RegistroConta registro : registrosCPF) {
+            System.out.println(registro);
+        }
     }
-
 }

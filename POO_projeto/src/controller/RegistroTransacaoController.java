@@ -6,7 +6,6 @@ import model.ContaCorrente;
 import model.ContaPoupanca;
 import model.IConta;
 import model.RegistroTransacao;
-import dao.IEntityDAO;
 import dao.RegistroTransacaoDAO;
 
 public class RegistroTransacaoController implements IRegistro {

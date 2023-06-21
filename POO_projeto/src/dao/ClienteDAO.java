@@ -31,8 +31,8 @@ public class ClienteDAO implements IEntityDAO<Cliente> {
 				String sql = "INSERT INTO cliente(cpf) VALUES(?);";
 				PreparedStatement statement = connection.getConnection().prepareStatement(sql);
 				statement.setString(1, t.getCpf());
-				statement.setString(1, t.getCpf());
 				statement.executeUpdate();
+				break;
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.err.println("Erro no Insert na tabela cliente: CPF já existente.");
 				e.printStackTrace();
@@ -45,6 +45,7 @@ public class ClienteDAO implements IEntityDAO<Cliente> {
 			} catch (SQLException e) {
 				System.err.println("Erro no Insert na tabela cliente");
 				e.printStackTrace();
+				break;
 			}
 		}
 
@@ -66,6 +67,7 @@ public class ClienteDAO implements IEntityDAO<Cliente> {
 	            String sql = "SELECT * FROM cliente";
 	            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
 	            ResultSet resultSet = statement.executeQuery();
+	            //resultSet.close();
 
 	            while (resultSet.next()) {
 	                int id = resultSet.getInt("id");
@@ -102,10 +104,10 @@ public class ClienteDAO implements IEntityDAO<Cliente> {
 
 	    while (attempts < maxAttempts) {
 	        try {
-	            String sql = "UPDATE cliente SET cpf = ? WHERE id = ?";
+	            String sql = "UPDATE cliente SET cpf = ? WHERE cpf = ?";//O cpf deve ser o identificador
 	            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
 	            statement.setString(1, t.getCpf());
-	            statement.setInt(2, t.getId());
+	            statement.setString(2, t.getCpf());
 	            statement.executeUpdate();
 	            statement.close();
 	            break;
@@ -156,4 +158,46 @@ public class ClienteDAO implements IEntityDAO<Cliente> {
 	        System.err.println("Falha ao excluir o cliente após " + maxAttempts + " tentativas. Verifique a conexão com o banco de dados.");
 	    }
 	}
+	
+	
+	public Cliente findByCPF(String cpf) {
+	    int maxAttempts = 3;
+	    int attempts = 0;
+
+	    while (attempts < maxAttempts) {
+	        try {
+	            String sql = "SELECT * FROM cliente WHERE cpf = ?";
+	            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+	            statement.setString(1, cpf);
+	            ResultSet resultSet = statement.executeQuery();
+
+	            if (resultSet.next()) {
+	                int id = resultSet.getInt("id");
+	                String retrievedCpf = resultSet.getString("cpf");
+
+	                Cliente cliente = new Cliente(id, retrievedCpf);
+	                statement.close();
+	                return cliente; // Retorna o cliente encontrado
+	            }
+
+	            statement.close();
+	            break;
+	        } catch (SQLTransientConnectionException e) {
+	            System.err.println("Erro transiente de conexão. Tentando novamente...");
+	            e.printStackTrace();
+	            attempts++;
+	        } catch (SQLException e) {
+	            System.err.println("Erro na consulta da tabela cliente por CPF");
+	            e.printStackTrace();
+	            break;
+	        }
+	    }
+
+	    if (attempts == maxAttempts) {
+	        System.err.println("Falha ao consultar o cliente por CPF após " + maxAttempts + " tentativas. Verifique a conexão com o banco de dados.");
+	    }
+
+	    return null; // Retorna null se o cliente não for encontrado
+	}
+
 }
