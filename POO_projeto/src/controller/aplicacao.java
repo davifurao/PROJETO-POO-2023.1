@@ -1,4 +1,3 @@
-
 package controller;
 
 import dao.ContaCorrenteDAO;
@@ -24,21 +23,19 @@ public class aplicacao {
 
         // Criação do controller da conta corrente
         ContaCorrenteController contaCorrenteController = new ContaCorrenteController(contaCorrente);
-        
-        ContaPoupancaController contaPoupancaController = new ContaPoupancaController(contaPoupanca);
-        
-        //contaPoupancaDAO.save(contaPoupanca);
-        //contaCorrenteDAO.save(contaCorrente);
 
+        // Criação do controller da conta poupança
+        ContaPoupancaController contaPoupancaController = new ContaPoupancaController(contaPoupanca);
+
+        
+        contaCorrenteDAO.save(contaCorrente);
+        contaPoupancaDAO.save(contaPoupanca);
         
         
         // Teste dos métodos
-        //contaPoupancaController.depositar(500.0f);
-        //contaCorrenteController.depositar(500.0f);
-        //contaCorrenteController.sacar(200.0f);
-        
-        
-        contaPoupancaController.transferir(contaCorrente, 50);
+        contaCorrenteController.depositar(500.0f);
+        contaCorrenteController.sacar(200.0f);
+        contaPoupancaController.depositar(2000);
 
         // Encerramento da conexão com o banco de dados
         //connection.closeConnection();

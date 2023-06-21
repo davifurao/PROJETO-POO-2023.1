@@ -31,7 +31,7 @@ public class RegistroTransacaoDAO implements IEntityDAO<RegistroTransacao> {
 
         while (attempts < maxAttempts) {
             try {
-                String sql = "INSERT INTO registro_transacao (id, valor, tipo_conta, tipo_transacao) VALUES (?, ?, ?, ?);";
+                String sql = "INSERT INTO registro_transacao (id, valor, tipo_conta, tipo_transacao) VALUES (?, ?, ?, ?)";
                 PreparedStatement statement = connection.getConnection().prepareStatement(sql);
                 statement.setInt(1, t.getId());
                 statement.setFloat(2, t.getValor());
@@ -64,7 +64,7 @@ public class RegistroTransacaoDAO implements IEntityDAO<RegistroTransacao> {
         while (attempts < maxAttempts) {
             try {
                 List<RegistroTransacao> registros = new ArrayList<>();
-                String sql = "SELECT id, valor, tipo_conta, tipo_transacao, data FROM registro_transacao";
+                String sql = "SELECT * FROM registro_transacao ORDER BY data";
                 PreparedStatement statement = connection.getConnection().prepareStatement(sql);
                 ResultSet resultSet = statement.executeQuery();
 

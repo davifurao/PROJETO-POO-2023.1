@@ -6,34 +6,33 @@ import model.ContaCorrente;
 import model.ContaPoupanca;
 import model.IConta;
 import model.RegistroTransacao;
+import dao.IEntityDAO;
 import dao.RegistroTransacaoDAO;
 
 public class RegistroTransacaoController implements IRegistro {
 
-	ConexaoBancoMySQL connection = new ConexaoBancoMySQL();
+    private ConexaoBancoMySQL connection;
+    private RegistroTransacaoDAO registroTransacaoDAO;
 
-	RegistroTransacaoDAO registroTransacaoDAO = new RegistroTransacaoDAO(connection);
+    public RegistroTransacaoController() {
+        connection = new ConexaoBancoMySQL();
+        registroTransacaoDAO = new RegistroTransacaoDAO(connection);
+    }
 
-	private RegistroTransacao registroTransacao;
+    @Override
+    public void adicionarRegistro(float valor, TipoTransacao tipoTransacao, IConta c) {
+        RegistroTransacao registroTransacao;
 
-	public RegistroTransacaoController(RegistroTransacao registroTransacao) {
-		this.registroTransacao = registroTransacao;
-	}
-
-	@Override
-	public void adicionarRegistro(float valor, TipoTransacao tipoTransacao, IConta c) {
-
-		if (c instanceof ContaCorrente) {
-			ContaCorrente conta = (ContaCorrente) c;
-			registroTransacao = new RegistroTransacao(valor, tipoTransacao, conta.getConta());
-			registroTransacaoDAO.save(registroTransacao);
-		} else if (c instanceof ContaPoupanca) {
-			ContaPoupanca conta = (ContaPoupanca) c;
-			registroTransacao = new RegistroTransacao(valor, tipoTransacao, conta.getConta());
-			registroTransacaoDAO.save(registroTransacao);
-		}else {
-			System.err.println("A conta é de um tipo inválido ou desconhecido");
-		}
-	}
-
+        if (c instanceof ContaCorrente) {
+            ContaCorrente conta = (ContaCorrente) c;
+            registroTransacao = new RegistroTransacao(valor, tipoTransacao, conta.getConta());
+            registroTransacaoDAO.save(registroTransacao);
+        } else if (c instanceof ContaPoupanca) {
+            ContaPoupanca conta = (ContaPoupanca) c;
+            registroTransacao = new RegistroTransacao(valor, tipoTransacao, conta.getConta());
+            registroTransacaoDAO.save(registroTransacao);
+        } else {
+            System.err.println("A conta é de um tipo inválido ou desconhecido");
+        }
+    }
 }
