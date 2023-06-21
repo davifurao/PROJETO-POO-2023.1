@@ -123,7 +123,7 @@ public class ClienteAplicacaoMain {
             return;
         }
 
-        clienteAplicacao.cadastrarConta(conta);
+        clienteAplicacao.cadastrarConta(conta,cpf);
 
         System.out.println("Conta cadastrada com sucesso.");
     }
@@ -146,7 +146,7 @@ public class ClienteAplicacaoMain {
             return;
         }
 
-        clienteAplicacao.deletarConta(conta);
+        clienteAplicacao.deletarConta(conta,cpf);
 
         System.out.println("Conta deletada com sucesso.");
     }

@@ -40,12 +40,16 @@ public class ClienteAplicacao {
 		clienteDAO.update(cliente);
 	}
 	
-	public void cadastrarConta(IConta conta) {
+	public void cadastrarConta(IConta conta,String cpf) {
 		clienteController.cadastrarConta(conta);
+		RegistroConta registro = new RegistroConta(cpf, conta.getConta(), conta);
+		registroContaController.adicionarRegistro(registro);
 	}
 	
-	public void deletarConta(IConta conta) {
+	public void deletarConta(IConta conta,String cpf) {
 		clienteController.deletarConta(conta);
+		RegistroConta registro = new RegistroConta(cpf, conta.getConta(), conta);
+		registroContaDAO.delete(registro);
 	}
 
 }
