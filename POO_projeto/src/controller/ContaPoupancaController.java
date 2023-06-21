@@ -3,7 +3,6 @@ package controller;
 import dao.ContaCorrenteDAO;
 import dao.ContaPoupancaDAO;
 import db.ConexaoBancoMySQL;
-import db.IConnection;
 import model.ContaCorrente;
 import model.ContaPoupanca;
 import model.IConta;

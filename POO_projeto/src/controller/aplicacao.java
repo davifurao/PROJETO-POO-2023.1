@@ -1,7 +1,6 @@
 
 package controller;
 
-import controller.ContaCorrenteController;
 import dao.ContaCorrenteDAO;
 import dao.ContaPoupancaDAO;
 import db.ConexaoBancoMySQL;
@@ -38,7 +37,7 @@ public class aplicacao {
         //contaCorrenteController.depositar(500.0f);
         //contaCorrenteController.sacar(200.0f);
         
-        System.out.println("valor anterior: "+contaCorrente.getSaldo());
+        
         contaPoupancaController.transferir(contaCorrente, 50);
 
         // Encerramento da conexão com o banco de dados
